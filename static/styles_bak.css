@@ -1,0 +1,26 @@
+a {
+    text-decoration: none;
+    color: black;
+}
+
+h1 {
+    text-align: center;
+}
+.error-message {
+    color: var(--input-error);
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+.cp-input:not(.error) ~ .error-message {
+    display: none;
+}
+.cp-input.error ~ .error-message {
+    display: block;
+    width: 100%;
+    text-align: right;
+}
+
+
+
+

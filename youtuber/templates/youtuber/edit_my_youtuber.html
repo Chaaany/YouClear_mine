@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block style %}
+    <link rel="stylesheet" href="{% static 'youtuber-style.css'%}?ver=20211216">
+{% endblock %}
+
+{% block content %}
+
+
+
+<div class="container">
+    <div class="category-title">
+        <h2>내가 찜한 유투버</h2>
+    </div>
+
+    <div class="youtuber-container">
+        {% for youtuber in my_youtuber %}
+        
+        <div class="myyoutuber-profile">
+            <a class="profile-wrap" href="{% url 'youtuber:youtuber' youtuber.youtuber.id %}">    
+                <div>
+                    <img class="profile-img" src="{{ youtuber.youtuber.profile_image.url }}" alt="{{youtuber.name}}">
+                </div>
+                <div class='myyoutuber-name'>{{ youtuber.youtuber.name }}</div>
+            </a>
+            <a class="myyoutuber-delete-btn" href="{% url 'youtuber:delete_my_youtuber' youtuber.youtuber.id %}">찜취소</a>
+        </div>
+    
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock content %}

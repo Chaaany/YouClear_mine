@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block style %}
+    <link rel="stylesheet" href="{% static 'youtuber-style.css'%}?ver=20211215">
+{% endblock %}
+
+{% block content %}
+
+
+<div class="container">
+    <div class="youtuber-profile">
+        <div class="profile-image">
+            <img src="{{ youtuber.profile_image.url }}" alt="{{youtuber.name}}프로필">
+        </div>
+        <div class="youtuber-summary">
+            <div class="youtuber-name"> {{ youtuber.name }}</div>
+            <div class="youtuber-dsc"> {{ youtuber.description }} </div>
+            <div class="youtuber-tags"> #{{ youtuber.tag.all|join:" #" }}</div>
+            {% if my_youtuber %}
+            <a class="zzim not" href="{% url 'youtuber:add_my_youtuber' youtuber.id  %}">찜하기</a>
+            {% else %}
+            <a class="zzim done" href="{% url 'youtuber:remove_my_youtuber' youtuber.id %}">찜취소</a>
+            {% endif %}
+                    
+        {% if user.is_superuser %}
+        <div class="admin_only" style="font-size: small; margin-top: 3px; font-weight: bold;">
+            <a href="{% url 'youtuber:edit_youtuber' youtuber.id %}">수정하기</a>
+            <a href="{% url 'youtuber:delete_youtuber' youtuber.id %}">삭제하기</a>
+        </div>
+        {% endif %}
+        </div>
+    </div>
+<!--
+    <div class="dsc-detail">
+        {{ youtuber.detail_description }}
+    </div>
+-->
+
+    <div class="video-list-wrap">
+        <div class="category-title video-title">
+            <h2>RECOMMENDATION VIDEO</h2>
+        </div>
+        <div class="video-list">
+            {% for video in videos %}
+            <div class="video">
+                <div class='embed-container'>
+                    <iframe src='https://www.youtube.com/embed/{{video.video_url}}'
+                    frameborder='0' allowfullscreen></iframe>
+                </div>
+                <div class="video-text">
+                    <div class="video-name">{{video.video_name}}</div>
+                    <div class="video-date">{{video.upload_date}}</div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+</div>
+
+{% endblock content %}

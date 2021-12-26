@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block style %}
+    <link rel="stylesheet" href="{% static 'youtuber-style.css'%}?ver=20211216">
+{% endblock %}
+
+{% block content %}
+
+
+<div class="container">
+
+    <div class="list-detail-wrap">
+               
+        <div class="list-title-wrap">
+            <div class="list-title">
+                <div class="list-sub-name">{{ youtuber_list.sub_title }}</div>
+                <div class="list-title-name">{{ youtuber_list.main_title }}</div>
+            </div>   
+            <div class="list-close">
+                <a href="javascript:history.back();"><i class="fas fa-times-circle fa-lg"></i></a>
+            </div>         
+        </div>
+        
+
+
+        <div class="youtuber-sort">
+            {% for youtuber in youtubers %}
+            <div class="youtuber-sort-btn" onclick=location.href="{% url 'youtuber:youtuber_list_detail_specific_youtuber' youtuber_list_id youtuber.id %}" style="cursor:pointer;" >
+                <div class="profile-img">
+                    <img src="{{ youtuber.profile_image.url }}" alt="{{youtuber.name}}">
+                </div>
+                <div class="youtuber-summary">
+                    <div class='youtuber-name'>{{ youtuber.name }}</div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="list-video">
+            {% for video in videos %}
+            <div class="pb-3 ps-4 py-3">
+                <div class="video">
+                    <div class="embed-container">
+                        <iframe src='https://www.youtube.com/embed/{{video.video_url}}'
+                                frameborder='0' allowfullscreen></iframe>
+                    </div>
+                    <div class="video-text">
+                        <div class="video-name">{{video.video_name}}</div>
+                        <div class="video-date">{{video.upload_date}}</div>
+                    </div>
+
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+    </div>
+</div>
+
+{% endblock content %}

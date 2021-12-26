@@ -1,0 +1,134 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+    /* div {
+        border: solid 1px black;
+    } */
+
+    .list-youtuber img {
+        object-fit: cover;
+        border-radius: 5%;
+        width: 70px;
+        height: 70px;
+    }
+
+
+    .list-youtuber {
+        display: flex;
+    }
+
+    .list-youtuber-name {
+        font-size: large;
+        font-weight: bold;
+    }
+
+    .list-youtuber-dsc {
+        font-size: smaller;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+
+    .list-youtuber-tags {
+        font-size: small;
+        color: grey;
+    }
+
+    .list-youtuber-content {
+        align-items: center;
+    }
+
+    a {
+        text-decoration: none;
+        color: black;
+    }
+
+    .youtuber-name {
+        text-align: center;
+        font-size: 12px;
+        font-weight: bold;
+    }
+
+    .youtuber-tags {
+        font-size: 11px;
+        color: grey;
+    }
+
+    .list-title {
+        font-weight: bold;
+    }
+
+    .list-title-name {
+        font-size: 20px;
+    }
+
+    .list-sub-name {
+        font-size: 13px;
+    }
+
+    .youtuber-list {
+        background-color: #e0e0e0;
+        border-radius: 2%;
+    }
+
+    .flex-box {
+        display: flex;
+    }
+
+    .flex-box-center {
+        display: flex;
+        justify-content: center;
+    }
+
+    .title {
+        font-size: 20px;
+        font-weight: bold;
+        text-align: center;
+    }
+</style>
+<div class="flex-box-center">
+    <div class="title my-3">MY LIST</div>
+    <a href="{% url 'youtuber:edit_my_youtuber_list' user.id %}">
+        <div class="mx-2 my-3"><img src="{% static 'youtuber/img/pen_1.png' %}" alt="edit" width="20px" height="20px">
+        </div>
+    </a>
+</div>
+<!-- 유투버 리스트  -->
+{% for list in my_youtuber_lists %}
+<div class="youtuber-list py-1 mx-3 my-2">
+    <div class="list-title flex-box">
+
+        <div class="list-title mx-3 my-2 col-10">
+            <a href="{% url 'youtuber:youtuber_list_detail' list.youtuber_list.id %}">
+                <div class="list-sub-name">{{ list.youtuber_list.sub_title }}</div>
+                <div class="list-title-name">{{ list.youtuber_list.main_title }}</div>
+            </a>
+        </div>
+
+    </div>
+
+    {% for youtuber in list.youtuber_list.youtubers.all%}
+    <a href="{% url 'youtuber:youtuber' youtuber.id %}">
+        <div class="list-youtuber my-3 mx-4">
+            <div class="mx-2">
+                <img src="{{ youtuber.profile_image.url }}" alt="{{youtuber.name}}프로필">
+            </div>
+
+            <div class="list-youtuber-content col-9">
+                <div class="list-youtuber-name"> {{ youtuber.name }}</div>
+                <div class="list-youtuber-dsc"> {{ youtuber.description }} </div>
+                <div class="list-youtuber-tags"> #{{ youtuber.tag.all|join:" #" }}</div>
+            </div>
+        </div>
+    </a>
+    {% endfor %}
+
+
+
+
+</div>
+{% endfor %}
+{% endblock content %}

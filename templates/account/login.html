@@ -1,0 +1,98 @@
+{% extends "base_only_logo.html" %}
+{% load account socialaccount %}
+{% load i18n %}
+
+{% load static %}
+{% load widget_tweaks %}
+{% block title %}로그인 | YouClear{% endblock title %}
+
+{% block content %}
+
+<style>
+  /* .socialaccount-login-btn {
+    width: 100%;
+    height: 70px;
+  } */
+
+  .login-container {
+    margin: 15%;
+  }
+
+  .info {
+    text-align: center;
+  }
+
+  .naver-color {
+    background-color: #2DB400;
+    color: white;
+  }
+  .kakao-color {
+    background-color: #f9e000;
+    color: white;
+  }
+
+  .google-color {
+    background-color: #4285F4;
+    color: white;
+  }
+
+</style>
+
+<div class="login-container">
+  <form method="post">
+    {% csrf_token %}
+    {% for error in form.non_field_errors %}
+    <div class="form-error error-message">{{ error }}</div>
+    {% endfor %}
+    <div>
+      {{ form.login|add_class:"form-control my-2"|attr:"placeholder:이메일"|add_error_class:"error" }}
+      {% for error in form.login.errors %}
+      <div class="form-error error-message">{{ error }}</div>
+      {% endfor %}
+    </div>
+    {{ form.password|add_class:"form-control my-2"|attr:"placeholder:비밀번호"|add_error_class:"error" }}
+    {% for error in form.password.errors %}
+    <div class="form-error error-message">{{ error }}</div>
+    {% endfor %}
+    <div class="d-grid gap-2">
+      <button class="btn btn-primary" type="submit">로그인</button>
+    </div>
+  </form>
+
+
+  <div class="info mt-3">
+    <a href="{% url 'account_reset_password' %}">비밀번호 찾기</a>
+    /
+    <a href="{% url 'account_signup' %}">회원가입</a>
+  </div>
+  <!-- 소셜로그인 -->
+  <div>
+
+  </div>
+  <hr>
+  <div class="socialaccount-login d-grid gap-2">
+  <button class="btn naver-color" onclick=location.href="{% provider_login_url 'naver' %}" type="submit">네이버 로그인</button>
+    <button class="btn kakao-color" onclick=location.href="{% provider_login_url 'kakao' %}" type="submit">카카오 로그인</button>
+    <button class="btn google-color" onclick=location.href="{% provider_login_url 'google' %}" type="submit">구글 로그인</button>
+  </div>
+  <!-- <div class>
+      <img class="socialaccount-login-btn" type="button" onclick=location.href="{% provider_login_url 'naver' %}"
+        src="{% static 'accounts/img/naver_login.png' %}" alt="네이버로그인">
+    </div>
+    <div>
+      <img class="socialaccount-login-btn" type="button" onclick=location.href="{% provider_login_url 'kakao' %}"
+        src="{% static 'accounts/img/kakao_login.png' %}" alt="카카로로그인">
+    </div>
+    <div>
+      <img class="socialaccount-login-btn" type="button" onclick=location.href="{% provider_login_url 'google' %}"
+        src="{% static 'accounts/img/google_login.png' %}" alt="구글로그인">
+    </div> -->
+
+  <!-- <a href="{% provider_login_url 'naver' %}">네이버 로그인</a> -->
+  <!-- <a href="{% provider_login_url 'kakao' %}">카카오 로그인</a> -->
+  <!-- <a href="{% provider_login_url 'google' %}">구글 로그인</a> -->
+  <!-- {% include "socialaccount/snippets/login_extra.html" %} -->
+  <!-- {% include "socialaccount/snippets/provider_list.html" with process="login" %} -->
+
+</div>
+{% endblock content %}

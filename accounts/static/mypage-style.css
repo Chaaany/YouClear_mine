@@ -1,0 +1,43 @@
+.mypage-profile{
+    width:calc( 100% - 40px );
+    height:200px;
+    background: #fff;
+    margin:0 auto;
+    border-radius: 10px;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 0 30px rgb(0 0 0 / 10%);
+}
+.category-title h2{
+    font-size: 11px;
+    padding-left: 23px;
+    margin-bottom: 15px;
+    color:#aaa;
+}
+
+.mypage-profile h1{
+    color:#222;
+    font-size: 20px;
+}
+.mypage-menu ul li{
+    list-style: none;
+}
+.mypage-menu ul li a{
+    font-size: 30px;
+    line-height: 60px;
+}
+.mypage-menu ul li a span{
+    background-color: #222;
+    color: #fff;
+    display: inline-block;
+    height: 30px;
+    box-sizing: border-box;
+    border-radius: 30px;
+    font-size: 20px;
+    line-height: 30px;
+    padding: 0px 10px;
+    position: relative;
+    top: -4px;
+
+}

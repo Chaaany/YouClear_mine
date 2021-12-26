@@ -1,0 +1,39 @@
+{% extends "base_only_logo.html" %}
+
+{% block title %}닉네임 변경 | YouClear{% endblock title %}
+
+{% block content %}
+<style>
+    .flex-box {
+        display: flex;
+    }
+
+    .overlap-alert {
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+    <div class="my-4">
+        <h1>닉네임 변경</h1>
+    </div>
+{% for message in messages %}
+    <div class="alert {{ message.tags }} alert-auto-dismissible alert-dismissible notification-container text-center" role="alert">
+        {{ message | linebreaksbr }}
+    </div>
+{% endfor %}
+<form method="post">
+    {% csrf_token %}
+    <div>
+        <input class="form-control my-1" type="text" value="{{ user.nickname }}"disabled/>
+    </div>
+    
+    <div>
+        <input class="form-control my-1" type="text" placeholder="변경할 닉네임(특수문자 불가, 15자 이내)" name="change_nickname">
+    </div>
+
+    <div class="d-grid gap-2 my-1">
+        <button class="btn btn-primary" type="submit">변경하기</button>
+    </div>
+</form>
+
+{% endblock content %}

@@ -1,0 +1,30 @@
+{% extends 'base_only_logo.html' %}
+
+{% block content %}
+{% for message in messages %}
+    <div class="alert {{ message.tags }} alert-auto-dismissible alert-dismissible notification-container text-center" role="alert">
+        {{ message | linebreaksbr }}
+    </div>
+{% endfor %}
+<form action="{% url 'youtuber:register_youtuber' %}" , method="post">
+    {% csrf_token %}
+
+    <input class="form-control my-1" id="channel_id" type="text" name="channel_id" placeholder="채널 id를 넣어주세요">
+
+    <input class="form-control my-1" id="youtube_api_key" type="text" name="youtube_api_key" placeholder="유투브 api Key를 넣어주세요">
+    
+    <div class="d-grid gap-2 mb-4">
+        <button class="btn btn-primary" type="submit">유투버 등록</button>
+    </div>
+</form>
+
+<form action="{% url 'youtuber:register_video' %}" , method="post">
+    {% csrf_token %}
+    <input class="form-control my-1" id="video_id" type="text" name="video_id" placeholder="비디오 id를 넣어주세요">
+    <input class="form-control my-1" id="youtube_api_key" type="text" name="youtube_api_key" placeholder="유투브 api Key를 넣어주세요">
+    
+    <div class="d-grid gap-2">
+        <button class="btn btn-primary" type="submit">비디오 등록</button>
+    </div>
+</form>
+{% endblock content %}

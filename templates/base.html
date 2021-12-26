@@ -1,0 +1,89 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css"/>
+    <link rel="stylesheet" href="{% static 'styles.css'%}?ver=20211216">
+    <link rel="stylesheet" href="{% static 'menu.css'%}">
+    
+    {% block style %}
+    {% endblock %}
+    
+    <title>{% block title %}{% endblock title %}</title>
+</head>
+
+<body>
+<style>
+    .flex-box {
+        display: flex;
+    }
+
+    h1 {
+        font-family: 'Krona One', sans-serif;
+        font-size: 20px;
+    }
+</style>
+    <div class="header">
+        <a href="{% url 'youtuber:index' %}">
+        <div class="flex-box" style="margin-left: 20px; margin-top: 5px;">
+            <div style="margin: 0; margin-top: 5px; width: 40px;"><img class="logo" src="{% static 'img/logo.png' %}" alt="logo" width="100%"></div>
+            <div style="margin: 6px;"><h1>YouClear</h1></div>
+        </div>
+    </a>
+
+
+        {% if user.is_authenticated %}
+        <div class="mobilemenu_btn">
+            <span class="menu ani">
+              <span></span>
+            </span>
+        </div>
+        <div class="mobile_menu" >
+            <ul>
+                <li><a href="{% url 'my_page' user.id %}">Mypage</a></li>
+                <li><a href="{% url 'youtuber:popular_youtuber_list' %}">Popular</a></li>
+                <li><a href="{% url 'youtuber:category' %}">Category</a></li>
+            </ul>
+        </div>
+
+
+        {% else %}
+        <div>
+            <a href="{% url 'account_login' %}">로그인</a>
+            <a href="{% url 'account_signup' %}">회원가입</a>
+        </div>
+        {% endif %}
+
+
+    </div>
+                
+
+
+
+
+        {% block content %}
+        {% endblock content %}
+
+
+   
+  <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+  
+  
+  <script>
+      $( ".mobilemenu_btn" ).click(function() {
+		  $( ".mobilemenu_btn span.menu" ).toggleClass( "open" );
+		  $(".mobile_menu").toggleClass("open");
+	   });
+
+  </script>
+
+
+</body>
+</html>

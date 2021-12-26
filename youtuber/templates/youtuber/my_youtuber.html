@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+    a {
+        text-decoration: None;
+        color: black;
+    }
+    /* div {
+        border: 1px solid black
+    } */
+
+    .title {
+        font-size: 20px;
+        font-weight: bold;
+        text-align: center;
+    }
+
+    .flex-box {
+        display: flex;
+        justify-content: center;
+    }
+
+    .profile-img {
+        object-fit: cover;
+        border-radius: 50%;
+        width: 120px;
+        height: 120px;
+    }
+
+    .youtuber-profile {
+        text-align: center;
+    }
+
+    .youtuber-name {
+        text-align: center;
+        font-size: 15px;
+    }
+
+    .youtuber-container {
+        display: flex;
+        overflow: hidden;
+    }
+</style>
+<div class="flex-box">
+    <div class="title my-3">My YOUTUBER</div>
+    <a href="{% url 'youtuber:edit_my_youtuber' user.id %}"><div class="mx-2 my-3"><img src="{% static 'youtuber/img/pen_1.png' %}" alt="edit" width="20px" height="20px"></div></a>
+</div>
+<div class="youtuber-container mx-3">
+    {% for youtuber in my_youtubers %}
+    <div class="youtuber-profile col-4 my-3">
+        <a href="{% url 'youtuber:youtuber' youtuber.youtuber.id %}">    
+        <div>
+            <img class="profile-img" src="{{ youtuber.youtuber.profile_image.url }}" alt="{{youtuber.name}}">
+        </div>
+        <div class='youtuber-name'>{{ youtuber.youtuber.name }}</div>
+    </a>
+    </div>
+    {% endfor %}
+</div>
+
+
+{% endblock content %}

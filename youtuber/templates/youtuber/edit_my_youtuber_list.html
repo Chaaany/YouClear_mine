@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block style %}
+    <link rel="stylesheet" href="{% static 'youtuber-style.css'%}?ver=20211216">
+{% endblock %}
+
+{% block content %}
+
+
+<div class="container">
+    <!-- 유투버 리스트  -->
+    {% for list in my_youtuber_lists %}
+    <div class="youtuber-list">
+        <div class="list-title-wrap">
+            <div class="list-title">
+                <a href="{% url 'youtuber:youtuber_list_detail' list.id %}">
+                    <div class="list-sub-name">{{ list.youtuber_list.sub_title }}</div>
+                    <div class="list-title-name">{{ list.youtuber_list.main_title }}</div>
+                </a>
+            </div>
+            <div class="list-bookmark done">
+                <a href="{% url 'youtuber:delete_my_youtuber_list' list.youtuber_list.id %}"><i class="fas fa-bookmark fa-lg"></i></a>
+            </div>
+        </div>
+
+        <div class="list-youtuber-wrap">
+            {% for youtuber in list.youtuber_list.youtubers.all %}
+            <a href="{% url 'youtuber:youtuber' youtuber.id %}">
+                <div class="list-youtuber">
+                    <div class="youtuber-profile-image">
+                        <img src="{{ youtuber.profile_image.url }}" alt="{{youtuber.name}}프로필">
+                    </div>
+
+                    <div class="list-youtuber-content">
+                        <div class="list-youtuber-name"> {{ youtuber.name }}</div>
+                        <div class="list-youtuber-dsc"> {{ youtuber.description }} </div>
+                        <div class="list-youtuber-tags"> #{{ youtuber.tag.all|join:" #" }}</div>
+                    </div>
+                </div>
+            </a>
+            
+            
+            {% endfor %}
+        </div>
+
+
+
+    </div>
+  
+{% endfor %}
+</div>  
+
+{% endblock content %}

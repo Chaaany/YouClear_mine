@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load socialaccount %}
+{% load static %}
+
+{% block style %}
+    <link rel="stylesheet" href="{% static 'mypage-style.css'%}?ver=20211216">
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <div class="category-title">
+        <h2>MYPAGE</h2>
+    </div>
+    <div class="mypage-profile">
+        <h1>Hi,{{user.nickname}}!</h1>
+    </div>
+    <div class="mypage-menu">
+        <ul>
+            <li>
+                {% if user.is_superuser %}
+                    <a class="mypage-list" href="{% url 'youtuber:admin_only' %}">데이터 넣기</a>
+                {% endif %}
+            </li>
+            <li><a href="{% url 'account_change_nickname' %}">닉네임 변경</a></li>
+            {% if not user.socialaccount_set.all %}
+            <li><a href="{% url 'account_change_password' %}">비밀번호 변경</a></li>
+            {% endif %}
+            <li><a href="{% url 'youtuber:edit_my_youtuber' user.id %}">내가 찜한유투버 <span>{{my_youtuber_count}}</span></a></li>
+            <li><a href="{% url 'youtuber:edit_my_youtuber_list' user.id %}">내가 찜한리스트 <span>{{my_youtuber_lists_count}}</span></a></li>
+            <li><a class="mypage-list" href="{% url 'account_logout' %}">로그아웃</a></li>
+        </ul>
+    </div>
+</div>
+{% endblock content %}

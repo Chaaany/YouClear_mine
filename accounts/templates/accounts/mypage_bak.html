@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% load socialaccount %}
+
+{% block title %}YouClear | Mypage {% endblock title %}
+{% load static %}
+
+{% block content %}
+<style>
+    a {
+        text-decoration: none;
+        color: black;
+    }
+    .mypage-list {
+        color: black;
+        font-size: larger;
+        font-weight: bold;
+        text-decoration: none;
+    }
+
+    .youtuber {
+        display: flex;
+    }
+
+    .youtuber-name {
+        font-size: small;
+        font-weight: bolder;
+    }
+
+    .youtuber-dsc {
+        font-size: smaller;
+    }
+
+    .profile-img {
+        object-fit: cover;
+        border-radius: 5%;
+        width: 70px;
+        height: 70px;
+    }
+</style>
+<div class="mypage mx-5">
+    <div class="my-4"><a class="mypage-list" href="{% url 'account_logout' %}">로그아웃</a></div>
+    {% if user.is_superuser %}
+    <div class="my-4"><a class="mypage-list" href="{% url 'youtuber:admin_only' %}">데이터 넣기</a></div>
+    {% endif %}
+    <div class="col-8 mypage-list">내 정보 수정</div>
+    <div class="change-my-info mx-3 my-3">
+        
+        <div class="my-2">
+            <a href="{% url 'account_change_nickname' %}">닉네임 변경</a>
+        </div>
+
+        {% if not user.socialaccount_set.all %}
+        <div>
+            <a href="{% url 'account_change_password' %}">비밀번호 변경</a>
+        </div>
+        {% endif %}
+    </div>
+    <div class="youtuber my-4">
+        <div class="col-8 mypage-list">찜한 유투버</div>
+        <div class="col-9"><a href="{% url 'youtuber:my_youtuber' user.id %}"><img
+                    src="{% static 'accounts/img/more.png' %}" alt="more.png" width="25px" height="25px"></a></div>
+    </div>
+    <div>
+        {%for youtuber in my_youtuber %}
+        <a href="{% url 'youtuber:youtuber' youtuber.youtuber.id %}">
+            <div class="youtuber my-2">
+                <div class="mx-3">
+                    <img class="profile-img" src="{{ youtuber.youtuber.profile_image.url }}"
+                        alt="{{youtuber.youtuber.name}}프로필" width=95% height=85%>
+                </div>
+                <div>
+                    <div class="my-1 youtuber-name"> {{ youtuber.youtuber.name }}</div>
+                    <div class="youtuber-dsc"> {{ youtuber.youtuber.description }} </div>
+                    <div class="youtuber-dsc"> #{{ youtuber.youtuber.tag.all|join:" #" }}</div>
+                </div>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+    <div class="youtuber my-4">
+        <div class="col-8 mypage-list">찜한 유투버 리스트</div>
+        <div class="col-9"><a href="{% url 'youtuber:my_youtuber_list' user.id %}"><img
+                    src="{% static 'accounts/img/more.png' %}" alt="more.png" width="25px" height="25px"></a></div>
+    </div>
+    <div class="my-4"><a class="mypage-list" href="{% url 'youtuber:category' %}">카테고리</a></div>
+    <div class="my-4"><a class="mypage-list" href="{% url 'youtuber:popular_youtuber_list' %}">인기리스트</a></div>
+</div>
+{% endblock content %}
