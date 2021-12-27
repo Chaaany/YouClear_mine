@@ -11,5 +11,17 @@ class User(AbstractUser):
         error_messages={"unique": "이미 사용중인 닉네임입니다."},
     )
 
+    address = models.CharField(
+      max_length=50,
+      null=True,
+    )
+
+    detail_address = models.CharField(
+      max_length=50,
+      blank=True,
+      null=True,
+    )
+
+
     def __str__(self):
         return self.email

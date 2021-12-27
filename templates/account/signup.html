@@ -15,12 +15,26 @@
     {% endfor %}
   </div>
   <div>
-
     {{ form.nickname|add_class:"form-control my-2"|attr:"placeholder:닉네임 (YouClear에서 사용되는이름입니다)"|add_error_class:"error" }}
     {% for error in form.nickname.errors %}
     <div class="error-message">{{ error }}</div>
     {% endfor %}
   </div>
+
+  <div>
+    {{ form.address|add_class:"form-control my-2"|attr:"placeholder:주소입력(입력탭 클릭시 주소검색창 팝업)" |add_error_class:"error"}}
+    {% for error in form.address.errors %}
+    <div class="error-message">{{ error }}</div>
+    {% endfor %}
+  </div>
+
+  <div>
+    {{ form.detail_address|add_class:"form-control my-2"|attr:"placeholder:상세주소입력(선택입력사항)" |add_error_class:"error"}}
+    {% for error in form.detail_address.errors %}
+    <div class="error-message">{{ error }}</div>
+    {% endfor %}
+  </div>
+
   <div>
     {{ form.password1|add_class:"form-control my-2"|attr:"placeholder:비밀번호"|add_error_class:"error" }}
     {% for error in form.password1.errors %}
@@ -41,4 +55,32 @@
 <div class="my-3">
   이미 회원이신가요?<a class="link" href="{% url 'account_login' %}">로그인</a>
 </div>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+
+<script type="text/javascript"
+  src="//dapi.kakao.com/v2/maps/sdk.js?appkey=f81ea315ff8c202a8096b921f0197752&libraries=services">
+</script>
+<script>  
+//   window.onload = function(){
+//     document.getElementById("id_address").addEventListener("click", function(){ //주소입력칸을 클릭하면
+//         //카카오 지도 발생
+//         new daum.Postcode({
+//             oncomplete: function(data) { //선택시 입력값 세팅
+//                 document.getElementById("id_address").value = data.address; // 주소 넣기
+//                 document.querySelector("input[name=detail_address]").focus(); //상세입력 포커싱
+//             }
+//         }).open();
+//     });
+// }
+window.onload = function(){
+    document.getElementById("id_address").addEventListener("click", function(){ //주소입력칸을 클릭하면
+        //카카오 지도 발생
+        windowObjectReference = window.open("/maps/", "주소 검색", strWindowFeatures);
+        document.querySelector("input[name=detail_address]").focus(); //상세입력 포커싱
+    });
+}
+  var windowObjectReference;
+  var strWindowFeatures = "menubar=yes,location=yes,resizable=yes,scrollbars=yes,status=yes";
+</script>
+
 {% endblock content %}

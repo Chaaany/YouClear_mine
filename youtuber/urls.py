@@ -26,4 +26,5 @@ urlpatterns = [
     path('admin_only/register_youtuber/', register_youtuber, name='register_youtuber'),
     path('admin_only/register_video/', register_video, name='register_video'),
     path('youtuber_list/popular/', popular_youtuber_list, name='popular_youtuber_list'),
+    path('maps/', maps, name='map'),
 ]

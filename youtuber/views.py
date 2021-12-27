@@ -383,3 +383,5 @@ def popular_youtuber_list(request):
         print(list, list.myyoutuberlist_set.filter(activated=True).count())
     return render(request, 'youtuber/popular_list.html', context)
 
+def maps(request):
+  return render(request, 'youtuber/map.html')
