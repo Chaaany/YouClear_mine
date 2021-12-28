@@ -46,4 +46,21 @@ def change_nickname(request):
             messages.info(request, '닉네임 변경 완료')
             return redirect('account_change_nickname')
     return render(request, 'accounts/change_nickname.html')
+
+@login_required
+def userinfo(request):    
+    return render(request, 'accounts/userinfo.html')
+  
+@login_required
+def change_address(request):
+    if request.method == 'POST':
+      if request.POST.get('address'):
+          request.user.address = request.POST.get('address')
+      if request.POST.get('detail_address'):
+          request.user.detail_address = request.POST.get('detail_address')
+      request.user.save()
+
+      return redirect('change_address')
+
+    return render(request, 'accounts/change_address.html')
     

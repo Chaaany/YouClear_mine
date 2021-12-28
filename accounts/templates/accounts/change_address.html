@@ -37,26 +37,31 @@
     white-space: nowrap;
   }
 </style>
-<div class="col-9" style="margin:auto;">
-  <div>
-    <input type="text" class="form-control" id="address" placeholder="주소" readonly>
-    <div class="d-grid gap-2 my-2">
-      <input type="button" class="btn btn-primary" onclick="daumPostCode()" value="주소 검색"><br>
+<form action="" method="post">
+  {% csrf_token %}
+  <div class="col-9" style="margin:auto;">
+    <div>
+      <input type="text" class="form-control" id="address" name="address" placeholder="{{user.address}}" readonly>
+      <input type="text" class="form-control my-2" id="detail_address" name="detail_address" placeholder="{{user.detail_address}}">
+      
+      <div class="d-grid gap-2 my-2">
+        <input type="button" class="btn btn-primary" onclick="daumPostCode()" value="주소 검색"><br>
+      </div>
     </div>
-  </div>
 
-  <div class="map_wrap">
-    <div id="map" style="width:100%;height:100%;position:relative;overflow:hidden;"></div>
-    <div class="hAddr">
-      <span class="title">지도중심기준 행정동 주소정보</span>
-      <span id="centerAddr"></span>
+    <div class="map_wrap">
+      <div id="map" style="width:100%;height:100%;position:relative;overflow:hidden;"></div>
+      <div class="hAddr">
+        <span class="title">지도중심기준 행정동 주소정보</span>
+        <span id="centerAddr"></span>
+      </div>
     </div>
-  </div>
 
   <div class="d-grid gap-2 my-2">
-    <button class="btn btn-primary" type="button" onclick="setAdress()">확인</button>
+    <button class="btn btn-primary" type="submit" onclick="">수정</button>
   </div>
 </div>
+</form>
 {% endblock content %}
 
 {% block script %}
@@ -69,7 +74,38 @@
 <script>
   var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
     mapOption = {
-      center: new kakao.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
+      center: new kakao.maps.LatLng(11.566826, 126.9786567), // 임의의좌표
+      level: 3 // 지도의 확대 레벨
+    };
+
+  // 지도를 생성합니다    
+  var map = new kakao.maps.Map(mapContainer, mapOption);
+  // 주소-좌표 변환 객체를 생성합니다
+  var geocoder = new kakao.maps.services.Geocoder();
+
+  var callback = function(result, status) {
+  if (status === kakao.maps.services.Status.OK) {
+    mapOption = {
+         center: new kakao.maps.LatLng(result[0]['y'], result[0]['x']), // 지도의 중심좌표
+      };
+
+  // 지도를 생성합니다    
+  var map = new kakao.maps.Map(mapContainer, mapOption);
+  // 마커 생성
+  var marker = new daum.maps.Marker({
+        position: new daum.maps.LatLng(result[0]['y'], result[0]['x']),
+        map: map
+    }), // 클릭한 위치를 표시할 마커입니다
+  infowindow = new kakao.maps.InfoWindow({ zindex: 1 }); // 클릭한 위치에 대한 주소를 표시할 인포윈도우입니다
+          console.log(result[0]['x'], result[0]['y']);
+      }
+  };
+  console.log(a)
+
+  geocoder.addressSearch('{{user.address}}', callback);
+  var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+    mapOption = {
+      center: new kakao.maps.LatLng(35.566826, 126.9786567), // 지도의 중심좌표
       level: 3 // 지도의 확대 레벨
     };
 
@@ -78,14 +114,7 @@
 
   // 주소-좌표 변환 객체를 생성합니다
   var geocoder = new kakao.maps.services.Geocoder();
-
-  //마커를 미리 생성(서울특별시청)
-  var marker = new daum.maps.Marker({
-        position: new daum.maps.LatLng(37.566826, 126.9786567),
-        map: map
-    }), // 클릭한 위치를 표시할 마커입니다
-  infowindow = new kakao.maps.InfoWindow({ zindex: 1 }); // 클릭한 위치에 대한 주소를 표시할 인포윈도우입니다
-
+  
   // 현재 지도 중심좌표로 주소를 검색해서 지도 좌측 상단에 표시합니다
   searchAddrFromCoords(map.getCenter(), displayCenterInfo);
 
@@ -125,7 +154,7 @@
   
   function setAddressText(){
     opener.document.getElementById("Id_address").value = document.getElementById("address").value //확인 버튼 누를 시 signup 페이지로 데이터 전송
-    opener.document.querySelector("input[name=detail_address]").focus(); //상세입력 포커싱
+
   };
 
 
@@ -152,7 +181,9 @@
             // 지도 중심을 변경한다.
             map.setCenter(coords);
             // 마커를 결과값으로 받은 위치로 옮긴다.
+            document.querySelector("input[name=detail_address]").focus(); //상세입력 포커싱
             marker.setPosition(coords)
+
           }
         });
       }
@@ -188,7 +219,7 @@
     window.close()
   };
 
-  
+
 </script>
 
 {% endblock script %}

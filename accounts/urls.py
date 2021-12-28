@@ -24,5 +24,7 @@ urlpatterns = [
         CustomPasswordChangeView.as_view(),
         name="account_change_password",
     ),
-    path("nickname/change/", change_nickname, name="account_change_nickname"),     
+    path("nickname/change/", change_nickname, name="account_change_nickname"),  
+    path("userinfo/", userinfo, name='userinfo'),   
+    path("change_address", change_address, name='change_address'),   
 ]

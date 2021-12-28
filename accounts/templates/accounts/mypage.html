@@ -3,7 +3,7 @@
 {% load static %}
 
 {% block style %}
-    <link rel="stylesheet" href="{% static 'mypage-style.css'%}?ver=20211216">
+    <link rel="stylesheet" href="{% static 'mypage-style.css'%}">
 {% endblock %}
 
 {% block content %}
@@ -22,7 +22,9 @@
                     <a class="mypage-list" href="{% url 'youtuber:admin_only' %}">데이터 넣기</a>
                 {% endif %}
             </li>
+            <li><a href="{% url 'userinfo' %}">내 정보 조회</a></li>
             <li><a href="{% url 'account_change_nickname' %}">닉네임 변경</a></li>
+            <li><a href="{% url 'change_address' %}">주소등록 또는 수정</a></li>
             {% if not user.socialaccount_set.all %}
             <li><a href="{% url 'account_change_password' %}">비밀번호 변경</a></li>
             {% endif %}
